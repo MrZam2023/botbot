@@ -1,8 +1,8 @@
 from aiogram import types, Dispatcher
 from config import bot
 from const import START_TEXT
-from database.sql_queries import Database
 
+from database.sql_commands import Database
 
 async def start_button(message: types.Message):
     Database().sql_insert_user_command(
