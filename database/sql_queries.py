@@ -1,19 +1,72 @@
-CREATE_USER_TABLE_QUERY = """ 
+CREATE_USER_TABLE_QUERY = """
         CREATE TABLE IF NOT EXISTS telegram_users
         (ID INTEGER PRIMARY KEY,
-        TELEGRAM_ID INTEGER, 
+        TELEGRAM_ID INTEGER,
         USERNAME CHAR(50),
         FIRST_NAME CHAR(50),
         LAST_NAME CHAR(50),
-        UNIQUE(TELEGRAM_ID)
+        UNIQUE (TELEGRAM_ID)
         )
 """
 
+CREATE_BAN_USER_TABLE_QUERY = """
+        CREATE TABLE IF NOT EXISTS ban_users
+        (ID INTEGER PRIMARY KEY,
+        TELEGRAM_ID INTEGER,
+        COUNT INTEGER,
+        UNIQUE (TELEGRAM_ID)
+        )
+"""
+CREATE_USER_FORM_TABLE_QUERY = """
+    CREATE TABLE IF NOT EXISTS user_form
+    (ID INTEGER PRIMARY KEY,
+    TELEGRAM_ID INTEGER,
+    NICKNAME CHAR(50),
+    BIO TEXT,
+    AGE INTEGER,
+    OCCUPATION TEXT,
+    MARRIED CHAR(50),
+    PHOTO TEXT,
+    UNIQUE (TELEGRAM_ID)
+    )
+"""
+
+CREATE_LIKE_USER_FORM_TABLE_QUERY = """
+    CREATE TABLE IF NOT EXISTS like_user_form
+    (ID INTEGER PRIMARY KEY,
+    LIKER_TELEGRAM_ID INTEGER,
+    LIKED_TELEGRAM_ID INTEGER,
+    UNIQUE (LIKER_TELEGRAM_ID, LIKED_TELEGRAM_ID)
+    )
+"""
 
 INSERT_USER_QUERY = """INSERT OR IGNORE INTO telegram_users VALUES (?,?,?,?,?)"""
 
+INSERT_BAN_USER_QUERY = """INSERT OR IGNORE INTO ban_users VALUES (?,?,?)"""
 
-class Database:
-    def sql_insert_user_command(self, telegram_id, username, first_name, last_name):
+SELECT_BAN_USER_QUERY = """
+SELECT * FROM ban_users WHERE TELEGRAM_ID = ?
+"""
 
-        pass
+UPDATE_BAN_USER_COUNT_QUERY = """
+UPDATE ban_users SET COUNT = COUNT + 1 WHERE TELEGRAM_ID = ?
+"""
+
+INSERT_USER_FORM_QUERY = """INSERT OR IGNORE INTO user_form VALUES (?,?,?,?,?,?,?,?)"""
+SELECT_USER_FORM_QUERY = """
+SELECT * FROM user_form WHERE TELEGRAM_ID = ?
+"""
+
+SELECT_ALL_USER_FORMS_QUERY = """
+SELECT * FROM user_form
+"""
+
+INSERT_LIKE_QUERY = """INSERT INTO like_user_form VALUES (?,?,?)"""
+
+UPDATE_USER_FORM_QUERY = """
+UPDATE user_form SET NICKNAME = ?, BIO = ?, AGE = ?, OCCUPATION = ?, MARRIED = ?, PHOTO = ?  WHERE TELEGRAM_ID = ?
+"""
+
+DELETE_USER_FORM_QUERY = """
+DELETE FROM user_form WHERE TELEGRAM_ID = ?
+"""
