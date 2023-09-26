@@ -42,6 +42,7 @@ class Database:
             sql_queries.SELECT_BAN_USER_QUERY,
             (telegram_id,)
         ).fetchall()
+        self.connection.commit()
 
     def sql_update_ban_user_count_command(self, telegram_id):
         self.cursor.execute(
@@ -73,6 +74,9 @@ class Database:
             sql_queries.SELECT_USER_FORM_QUERY,
             (telegram_id,)
         ).fetchall()
+        self.connection.commit()
+
+
 
     def sql_select_all_user_form_command(self):
         self.cursor.row_factory = lambda cursor, row: {
@@ -88,6 +92,7 @@ class Database:
         return self.cursor.execute(
             sql_queries.SELECT_ALL_USER_FORMS_QUERY,
         ).fetchall()
+        self.connection.commit()
 
     def sql_insert_like_command(self, liker, liked):
         self.cursor.execute(
@@ -124,6 +129,7 @@ class Database:
             sql_queries.SELECT_USER_QUERY,
             (telegram_id,)
         ).fetchall()
+        self.connection.commit()
 
     def sql_update_user_link_generation_command(self, link, telegram_id):
         self.cursor.execute(
@@ -147,6 +153,7 @@ class Database:
             sql_queries.SELECT_OWNER_BY_LINK_QUERY,
             (link,)
         ).fetchall()
+        self.connection.commit()
 
     def sql_select_list_referral_by_owner_id_command(self, owner):
         self.cursor.row_factory = lambda cursor, row: {
@@ -156,3 +163,4 @@ class Database:
             sql_queries.SELECT_LIST_REFERRAL_BY_OWNER_ID_QUERY,
             (owner,)
         ).fetchall()
+        self.connection.commit()
